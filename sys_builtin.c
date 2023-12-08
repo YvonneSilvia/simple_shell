@@ -49,7 +49,7 @@ int mycustom_help(info_t *info)
  * mycustom_cd - changes the current directoty of the procee
  * @info: Strucure containing potential arguments. Used to maintain
  * constant function prototype.
- * Return: Always 0
+ * Return; Always 0
  */
 int mycustom_cd(info_t *info)
 {
@@ -64,6 +64,20 @@ int mycustom_cd(info_t *info)
 		dir = custom_getenv(info, "HOME=");
 		if (!dir)
 			chdir_ret = /* TODO: what should this be? */
+			       chdir((dir = custom_getenv(info, "PWD=")) ? dir : "/");
+		else
+			chdir_ret = chdir(dir);
+	}
+	else if (_strcmp(info->argv[1], "-") == 0)
+	{
+		if (!custom_getenv(info, "OLDPWD="))
+		{
+			_puts(s);
+			_putchar('\n');
+			return (1);
+		}
+		_puts(custom_getenv(info, "OLDPWD=")), _putchar('\n');
+		chdir_ret = /* TODO: what should this be? */
 			chdir((dir = custom_getenv(info, "OLDPWD=")) ? dir : "/");
 	}
 	else
@@ -75,8 +89,8 @@ int mycustom_cd(info_t *info)
 	}
 	else
 	{
-		custom_setenv(info, "OLDPWD", custom_getenv(info, "PWD="));
-		custom_setenv(info, "PWD", getcwd(buffer, 1024));
+		_setenv(info, "OLDPWD", custom_getenv(info, "PWD="));
+		_setenv(info, "PWD", getcwd(buffer, 1024));
 	}
 	return (0);
 }

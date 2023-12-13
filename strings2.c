@@ -24,6 +24,7 @@ int _string_len(const char *str)
 char *_strcat(char *str1, char *str2)
 {
 	char *s = str1 + _string_len(str1);
+
 	_strncpy(s, str2);
 	return (str1);
 }

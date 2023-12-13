@@ -5,9 +5,9 @@
 *@del: argument is_delimeter takes in call
 *Return: - returns a pointer to array of words
 */
-char **_strwd1(char * str, char *del)
+char **_strwd1(char *str, char *del)
 {
-	int l, m , p = 0, n = 0;
+	int l, m, p = 0, n = 0;
 	char **s;
 
 	if (!str || !*str)

@@ -1,7 +1,6 @@
 #include "shell.h"
-
 /**
- * mycustom_alias - mimics the custom_alias builtin (man custom_alias)
+ * _myalias - mimics the custom_alias builtin (man custom_alias)
  * @info: Structure containing potential arguments. Used to maintain
  * constant function prototype.
  * Return: Always 0

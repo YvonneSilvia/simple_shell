@@ -39,8 +39,9 @@ void _puts(char *str)
 int _putchar(char c)
 {
 	static char buffer[BUFFER_SIZE];
-	static int i = 0;
+	static int;
 
+	i = 0;
 	if (c == BUF_FLUSH || i == BUFFER_SIZE)
 	{
 		write(1, buffer, i);

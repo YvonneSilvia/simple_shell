@@ -2,15 +2,15 @@
 /**
 *custom_strncpy - copies a string
 *@source: - the source string
-@destination: - to where to copy string
-@size: - string size
+*@destination: - to where to copy string
+*@size: - string size
 *Return: - returns destination string
 */
 char *custom_strncpy(char *source, char *destination, int size)
 {
 	int s = 0, d;
 
-	while (source[s] != '\0'&& s < size - 1)
+	while (source[s] != '\0' && s < size - 1)
 	{
 		destination[s] = source[s];
 		s++;

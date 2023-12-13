@@ -46,7 +46,7 @@ ssize_t _read_buffer(info_t *info, char *buffer, size_t *size)
 
 	if (*size == 0)
 	{
-		read = read(info->readfd, buffer, BUFFER);
+		read = read(info->readfd, buffer, BUFFER_SIZE);
 		if (read >= 0)
 			*size = (size_t)read;
 	}
@@ -115,7 +115,7 @@ int _getline(info_t *info, char **ptr, size_t length)
 	do
 	{
 		cap += BUFSIZ;
-		new_ptr = _realloc(p, st, st ? st + cap : cap + 1)
+		new_ptr = _realloc(p, st, st ? st + cap : cap + 1);
 		if (!new_ptr)
 			return (p ? free(p), -1 : -1);
 		if (st)

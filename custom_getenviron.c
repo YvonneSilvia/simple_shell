@@ -5,7 +5,7 @@
  * Return: 1 on delete, 0 otherwise
  * @var: the string env var property
  */
-int custom_unsetenv(info_t *info, char *var)
+int _unsetenv(info_t *info, char *var)
 {
 	list_t *node = info->env;
 	size_t i = 0;
@@ -35,7 +35,7 @@ int custom_unsetenv(info_t *info, char *var)
  * @info: Structure containing potential arguments. Used to maintain
  * Return: Always 0
  */
-char **custom_get_environ(info_t *info)
+char **_get_environ(info_t *info)
 {
 	if (!info->environ || info->env_chnaged)
 	{
@@ -55,7 +55,7 @@ char **custom_get_environ(info_t *info)
  * @value: the string env var value
  * Return: Always 0
  */
-int custom_setenv(info_t *info, char *var, char *value)
+int _setenv(info_t *info, char *var, char *value)
 {
 	char *buf = NULL;
 	list_t *node;

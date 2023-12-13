@@ -55,7 +55,7 @@ char *duplicate_chars(char *path, int start, int end)
 	int len = end - start;
 	static char buffer[1024];
 
-	custom_strncpy(buffer, path + start, len);
+	custom_strcpy(buffer, path + start, len);
 	buffer[len] = '\0';
 	return (buffer);
 }

@@ -8,25 +8,28 @@
 */
 int _is_chain(info_t *info, char *buffer, size_t *curr_pos)
 {
-	if (buffer[curr_pos] == '|' && buffer[curr_pos + 1] == '|')
+	size_t p = *curr_pos;
+
+	if (buffer[p] == '|' && buffer[p + 1] == '|')
 	{
-		buffer[curr_pos] = 0;
-		curr_pos++;
+		buffer[p] = 0;
+		p++;
 		info->command_buffer_type = CMD_OR;
 	}
-	else if (buffer[curr_pos] == '&' && buffer[curr_pos + 1] == '&')
+	else if (buffer[p] == '&' && buffer[p + 1] == '&')
 	{
-		buffer[curr_pos] = 0;
-		curr_pos++;
+		buffer[p] = 0;
+		p++;
 		info->command_buffer_type = CMD_AND;
 	}
-	else if (buffer[curr_pos] == ';')
+	else if (buffer[p] == ';')
 	{
-		buffer[curr_pos] = 0;
+		buffer[p] = 0;
 		info->command_buffer_type = CMD_CHAIN;
 	}
 	else
 		return (0);
+	*curr_pos = p;
 	return (info->command_buffer_type ? 1 : 0);
 }
 /**
@@ -52,10 +55,10 @@ int replace_variables(info_t *info)
 		if (!_strcmp(info->argv[i], "$$"))
 		{
 			replace_string(&(info->argv[i]),
-			_strdup(conver_number(getpid(), 10, 0)));
+			_strdup(convert_number(getpid(), 10, 0)));
 			continue;
 		}
-		node = node_starts_with(info->env, &info->argv[i][1], '=');
+		*node = node_begins_with(info->env, &info->argv[i][1], '=');
 		if (node)
 		{
 			replace_string(&(info->argv[i]),
@@ -78,7 +81,7 @@ int _replace_alias(info_t *info)
 
 	while (1)
 	{
-		node = node_starts_with(info->alias, info->argv[0], '=');
+		*node = node_begins_with(info->alias, info->argv[0], '=');
 		if (!node)
 			return (0);
 		free(info->argv[0]);
@@ -102,12 +105,24 @@ void _check_chain(info_t *info, char buffer, size_t *curr, size_t start, size_t 
 {
 	if (info->command_buffer_type == CMD_AND)
 	{
-		buffer[start] = info->status ? : buffer[start];
+		buffer[start] = info->status ? buffer[start] : 0;
 		*curr = info->status ? size : *curr;
 	}
 	if (info->command_buffer_type == CMD_OR)
 	{
-		buffer[start] = !info->status ? 0 : buffer[start];
+		buffer[start] = !info->status ? buffer[start] : 0;
 		*curr = !info->status ? size : *curr;
 	}
+}
+/**
+*replace_string - replaces a string
+*@new: - new string
+*@old: - old string
+*Return: - returns 1 success 0 otherwise
+*/
+int replace_string(char **old, char *new)
+{
+	free(*old);
+	*old = new;
+	return (1);
 }

@@ -16,10 +16,10 @@ int custom_unsetenv(info_t *info, char *var)
 
 	while (node)
 	{
-		p = starts_with(node->str, var);
+		p = begin_with(node->str, var);
 		if (p && *p == '=')
 		{
-			info->env_changed = delete_node_at_index(&(info->env), i);
+			info->env_changed = delete_node_at_someindex(&(info->env), i);
 			i = 0;
 			node = info->env;
 			continue;
@@ -39,7 +39,7 @@ char **custom_get_environ(info_t *info)
 {
 	if (!info->environ || info->env_chnaged)
 	{
-		info->environ = list_to_strings(info->env);
+		info->environ = list2string(info->env);
 		info->env_changed = 0;
 	}
 
@@ -67,13 +67,13 @@ int custom_setenv(info_t *info, char *var, char *value)
 	buf = malloc(_strlen(var) + _strlen(value) + 2);
 	if (!buf)
 		return (1);
-	_strcpy(buf, var);
+	_strncpy(buf, var);
 	_strcat(buf, "=");
 	_strcat(buf, value);
 	node = info->env;
 	while (node)
 	{
-		p = starts_with(node->str, var);
+		p = begin_with(node->str, var);
 		if (p && *p == '=')
 		{
 			free(node->str);
@@ -83,7 +83,7 @@ int custom_setenv(info_t *info, char *var, char *value)
 		}
 		node = node->next;
 	}
-	add_node_end(&(info_env), buf, 0);
+	add_node_at_end(&(info_env), buf, 0);
 	free(buf);
 	info->env_changed = 1;
 	return (0);

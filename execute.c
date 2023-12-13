@@ -14,7 +14,7 @@ int loop_shell(info_t *info, char **argv)
 	{
 		flush_info(info);
 		if (is_interactive(info))
-			custom_puts("$ ");
+			_puts("$ ");
 		_eputchar(FLUSH_BUFFER);
 		t = _input(info);
 		if (t != -1)
@@ -50,14 +50,14 @@ int builtin_search(info_t *info)
 {
 	int i, sys_builtin = -1;
 	builtin_table builtintable[] = {
-		{"exit", _custom_exit},
-		{"env", custom_env},
-		{"help", custom_help},
-		{"history", custom_history},
-		{"setenv", custom_setenv},
-		{"unsetenv", custom_unsetenv},
-		{"cd", custom_cd},
-		{"alias", custom_alias},
+		{"exit", _exit},
+		{"env", _env},
+		{"help", _help},
+		{"history", _history},
+		{"setenv", _setenv},
+		{"unsetenv", _unsetenv},
+		{"cd", _cd},
+		{"alias", _alias},
 		{NULL, NULL}
 	};
 
@@ -90,7 +90,7 @@ void command_fork(info_t *info)
 		if (execve(info->path->argv, get_environ(info)) == -1)
 		{
 			free_info(info, 1);
-			if (errno == AACCES)
+			if (errno == EACCES)
 				exit(126);
 			exit(1);
 		}
@@ -119,7 +119,7 @@ void get_command(info_t *info)
 	info->path = info->argv[0];
 	if (info->count_flag == 1)
 	{
-		info->count++;
+		info->line_count++;
 		info->count_flag = 0;
 	}
 	for (i = 0, j = 0; info->argv[i]; i++)
@@ -127,7 +127,7 @@ void get_command(info_t *info)
 			j++;
 	if (!j)
 		return;
-	sys_path = get_path(info, sys_getenv(info, "PATH="), info->argv[0]);
+	sys_path = get_path(info, _getenv(info, "PATH="), info->argv[0]);
 	if (sys_path)
 	{
 		info->path = sys_path;
@@ -135,7 +135,7 @@ void get_command(info_t *info)
 	}
 	else
 	{
-		if ((is_interactive(info) || sys_getenv(info, "PATH=")
+		if ((is_interactive(info) || _getenv(info, "PATH=")
 			|| info->argv[0][0] == '/') && is_command(info->argv[0]))
 			command_fork(info);
 		else if (*(info->arg) != '\n')

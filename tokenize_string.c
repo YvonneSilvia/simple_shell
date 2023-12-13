@@ -16,18 +16,18 @@ char **_strwd1(char * str, char *del)
 		del = " ";
 	for (l = 0; str[l]; l++)
 		if (!is_delimeter(str[l], del) && (is_delimeter(str[l + 1],
-			d) || !str[l + 1]))
+			del) || !str[l + 1]))
 			n++;
 		if (!n)
 			return (NULL);
-		s = malloc((n + 1) * sizeof(char *));
+		*s = malloc((n + 1) * sizeof(char *));
 		if (!s)
 			return (NULL);
 		for (l = 0, m = 0; m < n; m++)
 		{
 			while (is_delimeter(str[l], del))
 				l++;
-			while (!si_delimeter(str[l + p], del) && str[l + p])
+			while (!is_delimeter(str[l + p], del) && str[l + p])
 				p++;
 			s[m] = malloc((p + 1) * sizeof(char));
 			if (!s[m])
@@ -37,7 +37,7 @@ char **_strwd1(char * str, char *del)
 				free(s);
 				return (NULL);
 			}
-			custom_strncpy(s[m], str + l, p);
+			custom_strcpy(s[m], str + l, p);
 			s[m][p] = '\0';
 			l += p;
 		}
@@ -50,7 +50,7 @@ char **_strwd1(char * str, char *del)
 *@del: - delimeter param
 *Return: - returns pointerto array of words or null
 */
-char **strwd2(char *str, char del)
+char **_strwd2(char *str, char del)
 {
 	int m, n, o = 0, p = 0;
 	char **s;
@@ -59,7 +59,7 @@ char **strwd2(char *str, char del)
 		return (NULL);
 	for (m = 0; str[m]; m++)
 		if (str[m] != del && (str[m + 1] == del ||
-			!str[i + 1]))
+			!str[m + 1]))
 			p++;
 	if (!p)
 		return (NULL);
@@ -80,7 +80,7 @@ char **strwd2(char *str, char del)
 			free(s);
 			return (NULL);
 		}
-		custom_strncpy(s[n], str + m, o);
+		custom_strcpy(s[n], str + m, o);
 		s[n][o] = '\0';
 		m += o;
 	}

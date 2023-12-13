@@ -6,7 +6,7 @@
 */
 ssize_t _get_input(info_t *info)
 {
-	static size_t j = 0; len = 0;
+	static size_t j = 0, len = 0;
 	static char *buffer = NULL;
 	ssize_t read = 0;
 	char **buffer_ptr = &(info->arg);
@@ -18,10 +18,10 @@ ssize_t _get_input(info_t *info)
 		return (-1);
 	if (len)
 	{
-		check_chain(info, buffer, &j, j, len);
+		_check_chain(info, buffer, &j, j, len);
 		while (j < len && !_is_chain(info, buffer, &j))
 			j++;
-		j + 1;
+		j += 1;
 		if (j >= len)
 		{
 			j = len = 0;
@@ -40,7 +40,7 @@ ssize_t _get_input(info_t *info)
 *@size: - size
 *Return: - returns read buffer
 */
-ssize_t _read_buffer(info_t *info, char *buffer, size_t size)
+ssize_t _read_buffer(info_t *info, char *buffer, size_t *size)
 {
 	ssize_t read = 0;
 
@@ -79,7 +79,7 @@ ssize_t _input_buffer(info_t *info, char **buffer, size_t *len)
 			}
 			info->linecount_flag = 1;
 			remove_comments(*buffer);
-			history_list(info, *buffer, info->historycount++);
+			history_list(info, *buffer, info->histcount++);
 			*len = read;
 			if (_strchr(*buffer, ';'))
 				info->command_buffer = buffer;
@@ -107,7 +107,7 @@ int _getline(info_t *info, char **ptr, size_t length)
 		st = *length;
 	if (j == len)
 		j = len = 0;
-	read = read_buffer(info, buffer, &len);
+	read = _read_buffer(info, buffer, &len);
 	if (read == -1 || (read == 0 && len == 0))
 		return (-1);
 	c = _strchr(buffer + j, '\n');
@@ -121,7 +121,7 @@ int _getline(info_t *info, char **ptr, size_t length)
 		if (st)
 			_strncat(new_ptr, buffer + j, k - j);
 		else
-			custom_strncpy(new_ptr, buffer + j, k - j + 1);
+			custom_strcpy(new_ptr, buffer + j, k - j + 1);
 		st += k - j;
 		j = k;
 		p = new_ptr;

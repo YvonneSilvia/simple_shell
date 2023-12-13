@@ -8,14 +8,14 @@ char *history_file(info_t *info)
 {
 	char *buffer, directory;
 
-	directory = custom_getenv(info, "HOME=");
+	directory = _getenv(info, "HOME=");
 	if (!directory)
 		return (NULL);
-	buffer = malloc(sizeof(char) * (_string_len(directory) + string_len(HIST_FILE) + 2));
+	buffer = malloc(sizeof(char) * (_string_len(directory) + _string_len(HIST_FILE) + 2));
 	if (!buffer)
 		return (NULL);
 	buffer[0] = 0;
-	custom_strncpy(buffer, directory);
+	_strncpy(buffer, directory);
 	_strcat(buffer, "/");
 	_strcat(buffer, HIST_FILE);
 	return (buffer);
@@ -57,8 +57,8 @@ int read_history(info_t *info)
 		}
 	}
 	close(fd);
-	info->history_count = count;
-	while (info->history_count-- >= HIST_MAX)
+	info->histcount = count;
+	while (info->histcount-- >= HIST_MAX)
 		delete_node_at_someindex(&(info->history), 0);
 	renumber_history(info);
 	return (count);
@@ -78,7 +78,7 @@ int rem_history(info_t *info)
 		node->num = i++;
 		node = node->next;
 	}
-	return (info->histcount = i);
+	return (info->histcount = j);
 }
 /**
 *write_into_history - writes history of commands from a

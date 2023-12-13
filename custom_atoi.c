@@ -3,14 +3,12 @@
 /**
  * interactive - returns true if shell is interactive mode
  * @info: stuct address
- *
  * Return: 1 if interactive mode, 0 otherwise
  */
-int interactive(info_t *info)
+int is_interactive(info_t *info)
 {
 	return (isatty(STDIN_FILENO) && info->readfd <= 2);
 }
-
 /**
  * is_alpha -checks for alphabetic character
  * @c: The character to input
@@ -34,11 +32,10 @@ int is_alpha(int c)
 int is_delimeter(char c, char *delimeter)
 {
 	while (*delimeter)
-		if (*delemeter++ == c)
+		if (*delimeter++ == c)
 			return (1);
 	return (0);
 }
-
 /**
  * custom_atoi - converts a string to an integer
  * @s: the string to be converted
@@ -49,7 +46,7 @@ int custom_atoi(char *s)
 	int i, sign = 1, flag = 0, output;
 	unsigned int result = 0;
 
-	for (i = 0; s[i] != '\0' && falg != 2; i++)
+	for (i = 0; s[i] != '\0' && flag != 2; i++)
 	{
 		if (s[i] == '_')
 			sign *= -1;

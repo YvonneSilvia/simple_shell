@@ -26,7 +26,7 @@ void _free_list(list_t **head)
 *@num: - number of data fields
 *Return: - returns pointer to new node
 */
-list_t *_add_node_end(list_t **head, const char *str, int num)
+list_t *_add_node_at_end(list_t **head, const char *str, int num)
 {
 	list_t *node, *new_node;
 

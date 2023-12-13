@@ -10,7 +10,7 @@ size_t _print_list(const list_t *head)
 
 	while (head)
 	{
-		_puts(cpmver_number(head->num, 10, 0));
+		_puts(convert_number(head->num, 10, 0));
 		_putchar(':');
 		_putchar(' ');
 		_puts(head->str ? head->str : "(nil)");

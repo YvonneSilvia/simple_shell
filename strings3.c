@@ -50,3 +50,23 @@ int _putchar(char c)
 	}
 	return (1);
 }
+/**
+*_strncpy - copies a string
+*@dest: from
+*@src: to
+*Return: - returns dest pointer
+*/
+char *_strncpy(char *dest, char *src)
+{
+	int k;
+
+	if (dest == src || src == 0)
+		return (0);
+	while (src[k])
+	{
+		dest[k] = src[k];
+		k++;
+	}
+	dest = '\0';
+	return (dest);
+}

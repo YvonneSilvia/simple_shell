@@ -6,14 +6,17 @@
 */
 char *_strdup(const char *str)
 {
-	char *ret = malloc(_string_len(str) + 1);
+	int len = _string_len(str), i;
+	char *dup = malloc(len + 1);
 
 	if (str == NULL)
 		return (NULL);
-	if (ret == NULL)
-		return (NULL);
-	_strncpy(ret, str);
-	return (ret);
+	if (dup != NULL)
+	{
+		for (i = 0; i <= len; i++)
+			dup[i] = str[i];
+	}
+	return (dup);
 }
 /**
 *_puts - prints an output string

@@ -1,12 +1,12 @@
 #include "shell.h"
 /**
-*locate_executable - locates commands
+*get_path - locates commands
 *@info: - struct type param
 *@path: - defined path of command
 *@command: - command type
 *Return: - returns the path of command
 */
-char *locate_executable(info_t info, char *path, char command)
+char *get_path(info_t *info, char *path, char *command)
 {
 	int i, curr_pos;
 	char *p;
@@ -21,7 +21,8 @@ char *locate_executable(info_t info, char *path, char command)
 		if (path[i] == ':')
 		{
 			p = duplicate_chars(path, curr_pos, i);
-			_strcat(p, (*p ? "/" : ""), command);
+			_strcat(p, (*p ? "/" : ""));
+			_strcat(p, command);
 			if (is_command(info, p))
 				return (p);
 			curr_pos = i + 1;

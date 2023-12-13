@@ -101,7 +101,7 @@ int _replace_alias(info_t *info)
 *@size: - size of the buffer
 *Return: - returns nothing
 */
-void _check_chain(info_t *info, char buffer, size_t *curr, size_t start, size_t size)
+void _check_chain(info_t *info, char *buffer, size_t *curr, size_t start, size_t size)
 {
 	if (info->command_buffer_type == CMD_AND)
 	{

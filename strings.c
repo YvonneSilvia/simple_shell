@@ -6,7 +6,7 @@
 @size: - string size
 *Return: - returns destination string
 */
-char *custom_strncpy(char source, char destination, int size)
+char *custom_strncpy(char *source, char *destination, int size)
 {
 	int s = 0, d;
 

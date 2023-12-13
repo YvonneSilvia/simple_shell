@@ -16,7 +16,7 @@ void *_realloc(void *ptr, unsigned int old, unsigned int new)
 		return (mem);
 	old = old < new ? old : new;
 	while(old--)
-		mem[ild] = ((char *)ptr)[old];
+		mem[old] = ((char *)ptr)[old];
 	free(ptr);
 	return (mem);
 }
@@ -47,6 +47,6 @@ char *_memset(char *ptr, char b, unsigned int size)
 	unsigned int i;
 
 	for (i = 0; i < size; i++)
-		*(str + i) = b;
+		*(ptr + i) = b;
 	return (ptr);
 }

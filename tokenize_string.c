@@ -15,34 +15,36 @@ char **_strwd1(char * str, char *del)
 	if (!del)
 		del = " ";
 	for (l = 0; str[l]; l++)
+	{
 		if (!is_delimeter(str[l], del) && (is_delimeter(str[l + 1],
 			del) || !str[l + 1]))
 			n++;
-		if (!n)
-			return (NULL);
-		*s = malloc((n + 1) * sizeof(char *));
-		if (!s)
-			return (NULL);
-		for (l = 0, m = 0; m < n; m++)
+	}
+	if (!n)
+		return (NULL);
+	s = malloc((n + 1) * sizeof(char *));
+	if (!s)
+		return (NULL);
+	for (l = 0, m = 0; m < n; m++)
+	{
+		while (is_delimeter(str[l], del))
+			l++;
+		while (!is_delimeter(str[l + p], del) && str[l + p])
+			p++;
+		s[m] = malloc((p + 1) * sizeof(char));
+		if (!s[m])
 		{
-			while (is_delimeter(str[l], del))
-				l++;
-			while (!is_delimeter(str[l + p], del) && str[l + p])
-				p++;
-			s[m] = malloc((p + 1) * sizeof(char));
-			if (!s[m])
-			{
-				while (m--)
-					free(s[m]);
-				free(s);
-				return (NULL);
-			}
-			custom_strncpy(s[m], str + l, p);
-			s[m][p] = '\0';
-			l += p;
+			while (m--)
+				free(s[m]);
+			free(s);
+			return (NULL);
 		}
-		s[m] = NULL;
-		return (s);
+		custom_strncpy(s[m], str + l, p);
+		s[m][p] = '\0';
+		l += p;
+	}
+	s[m] = NULL;
+	return (s);
 }
 /**
 *_strwd2 - splits a string into array of words

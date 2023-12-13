@@ -1,5 +1,6 @@
+#include "shell.h"
 /**
- * custom_unsetenv - Remove an environment variable
+ * _unsetenv - Remove an environment variable
  * @info: Strucure containing potential arguments. Used to maintain
  * constant function prototype.
  * Return: 1 on delete, 0 otherwise
@@ -29,15 +30,14 @@ int _unsetenv(info_t *info, char *var)
 	}
 	return (info->env_changed);
 }
-
 /**
- * custom_get_environ - returns the string array copy of our environ
+ * get_environ - returns the string array copy of our environ
  * @info: Structure containing potential arguments. Used to maintain
  * Return: Always 0
  */
-char **_get_environ(info_t *info)
+char **get_environ(info_t *info)
 {
-	if (!info->environ || info->env_chnaged)
+	if (!info->environ || info->env_changed)
 	{
 		info->environ = list2string(info->env);
 		info->env_changed = 0;
@@ -45,9 +45,8 @@ char **_get_environ(info_t *info)
 
 	return (info->environ);
 }
-
 /**
- * custom_setenv - Initialize a new environment variable,
+ * _setenv - Initialize a new environment variable,
  * or modify an existing one
  * @info: Structure containing potential arguments. Used to maintain
  * constant function prototype.
@@ -64,7 +63,7 @@ int _setenv(info_t *info, char *var, char *value)
 	if (!var || !value)
 		return (0);
 
-	buf = malloc(_strlen(var) + _strlen(value) + 2);
+	buf = malloc(_string_len(var) + _string_len(value) + 2);
 	if (!buf)
 		return (1);
 	_strncpy(buf, var);
@@ -83,7 +82,7 @@ int _setenv(info_t *info, char *var, char *value)
 		}
 		node = node->next;
 	}
-	add_node_at_end(&(info_env), buf, 0);
+	add_node_at_end(&(info->env), buf, 0);
 	free(buf);
 	info->env_changed = 1;
 	return (0);

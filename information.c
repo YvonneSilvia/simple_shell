@@ -12,7 +12,7 @@ void _set_info(info_t *info, char **argv)
 	info->fname = argv[0];
 	if (info->arg)
 	{
-		info->argv = strwd1(info->arg, "\t");
+		info->argv = _strwd1(info->arg, "\t");
 		if (!info->argv)
 		{
 			info->argv = malloc(sizeof(char *) * 2);
@@ -30,11 +30,11 @@ void _set_info(info_t *info, char **argv)
 	}
 }
 /**
-*_clear_info - clears information struct
+*_flush_info - clears information struct
 *@info: - struct type param
 *Return: - returns nothing
 */
-void _clear_info(info_t *info)
+void _flush_info(info_t *info)
 {
 	info->arg = NULL;
 	info->argv = NULL;
@@ -49,22 +49,22 @@ void _clear_info(info_t *info)
 */
 void _free_info(info_t *info, int everything)
 {
-	ffree(info->argv);
+	_ffree(info->argv);
 	info->argv = NULL;
 	info->path = NULL;
 	if (everything)
 	{
-		if (!info->cmd_buf)
+		if (!info->command_buffer)
 			free(info->arg);
 		if (info->env)
-			free_list(&(info->env));
+			_free_list(&(info->env));
 		if (info->history)
-			free_list(&(info->history));
+			_free_list(&(info->history));
 		if (info->alias)
-			free_list(&(info->alias));
+			_free_list(&(info->alias));
 		_ffree(info->environ);
 		info->environ = NULL;
-		bfree((void **)info->command_buffer);
+		buffer_free((void **)info->command_buffer);
 		if (info->readfd > 2)
 			close(info->readfd);
 		_putchar(BUF_FLUSH);

@@ -6,12 +6,13 @@
 */
 char *history_file(info_t *info)
 {
-	char *buffer, directory;
+	char *buffer, *directory;
 
 	directory = _getenv(info, "HOME=");
 	if (!directory)
 		return (NULL);
-	buffer = malloc(sizeof(char) * (_string_len(directory) + _string_len(HIST_FILE) + 2));
+	buffer = malloc(sizeof(char) * (_string_len(directory)
+	+ _string_len(HIST_FILE) + 2));
 	if (!buffer)
 		return (NULL);
 	buffer[0] = 0;
@@ -30,8 +31,8 @@ int read_history(info_t *info)
 	int i, count = 0, last = 0;
 	struct stat st;
 	ssize_t fd, readlen, size = 0;
-	char *buffer;
-	char *file = *history_file(info);
+	char *buffer = NULL;
+	char *file = history_file(info);
 
 	if (!file || (fd = open(file, O_RDONLY)) == -1)
 		return (0);
@@ -64,18 +65,18 @@ int read_history(info_t *info)
 	return (count);
 }
 /**
-*rem_history - remembers the command history
+*renumber_history - remembers the command history
 *@info: - struct type param
 *Return: - returns history count
 */
-int rem_history(info_t *info)
+int renumber_history(info_t *info)
 {
 	list_t* node = info->history;
 	int j = 0;
 
 	while (node)
 	{
-		node->num = i++;
+		node->num = j++;
 		node = node->next;
 	}
 	return (info->histcount = j);
@@ -86,11 +87,11 @@ int rem_history(info_t *info)
 *@info: - struct type param
 *Return:- returns 1 on success and -1 on failure
 */
-int write_into_hostory(info_t *info)
+int write_history(info_t *info)
 {
-	char *file = history_list(info);
+	char *file = history_file(info);
 	int fd;
-	list_t *node;
+	list_t *node = NULL;
 
 	if (!file)
 		return (-1);
@@ -98,12 +99,12 @@ int write_into_hostory(info_t *info)
 	free(file);
 	if (fd == -1)
 		return (-1);
-	for (*node = info->history; node; node = node->next)
+	for (node = info->history; node; node = node->next)
 	{
-		_putsfiledir(node->str, fd);
-		_putsfiledir('\n', fd);
+		_putsfd(node->str, fd);
+		_putfd('\n', fd);
 	}
-	_putsfiledir(BUF_FLUSH, fd);
+	_putfd(BUF_FLUSH, fd);
 	close(fd);
 	return (1);
 }
@@ -114,7 +115,7 @@ int write_into_hostory(info_t *info)
 *@buffer: - access to the buffer
 *Return: - returns 0 success
 */
-int history_list(info_t *info, int linecount, char *buffer)
+int history_list(info_t *info, char *buffer, int linecount)
 {
 	list_t *node = NULL;
 

@@ -42,15 +42,15 @@ ssize_t _get_input(info_t *info)
 */
 ssize_t _read_buffer(info_t *info, char *buffer, size_t *size)
 {
-	ssize_t read = 0;
+	ssize_t rd = 0;
 
 	if (*size == 0)
 	{
-		read = read(info->readfd, buffer, BUFFER_SIZE);
-		if (read >= 0)
-			*size = (size_t)read;
+		rd = read(info->readfd, buffer, BUFFER_SIZE);
+		if ((int)rd >= 0)
+			*size = (size_t)rd;
 	}
-	return (read);
+	return (rd);
 }
 /**
 *_input_buffer - buffers chained with commands
@@ -94,9 +94,9 @@ ssize_t _input_buffer(info_t *info, char **buffer, size_t *len)
 *@length: - length of buffer
 *Return: - returns string input
 */
-int _getline(info_t *info, char **ptr, size_t length)
+int _getline(info_t *info, char **ptr, size_t *length)
 {
-	static char buffer[BUFFER];
+	static char buffer[BUFFER_SIZE];
 	static size_t j = 0, len = 0;
 	char *p = NULL, *new_ptr = NULL, *c;
 	size_t read = 0, st = 0;
@@ -104,16 +104,15 @@ int _getline(info_t *info, char **ptr, size_t length)
 
 	p = *ptr;
 	if (p && length)
-		st = *length;
+		st = (*length);
 	if (j == len)
 		j = len = 0;
 	read = _read_buffer(info, buffer, &len);
-	if (read == -1 || (read == 0 && len == 0))
+	if ((size_t)read == (size_t)-1 || (read == 0 && len == 0))
 		return (-1);
 	c = _strchr(buffer + j, '\n');
 	k = c ? 1 + (unsigned int)(c - buffer) : len;
-	do
-	{
+	do {
 		cap += BUFSIZ;
 		new_ptr = _realloc(p, st, st ? st + cap : cap + 1);
 		if (!new_ptr)
@@ -126,11 +125,10 @@ int _getline(info_t *info, char **ptr, size_t length)
 		j = k;
 		p = new_ptr;
 		if (length)
-			*length = st;
+			(*length) = st;
 		*ptr = p;
-	}
-	while (!c);
-	return(st);
+	} while (!c);
+	return (st);
 }
 /**
 *sigintHandler - blocks any use of CTRL + C

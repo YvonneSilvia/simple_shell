@@ -27,7 +27,7 @@ size_t _print_list(const list_t *head)
 *@c: - next after prefix
 *Return: - returns the node or null
 */
-list_t *node_begin_with(list_t *head, char c, char *prefix)
+list_t *node_begin_with(list_t *head, char *prefix, char c)
 {
 	char *pre = NULL;
 
@@ -41,12 +41,12 @@ list_t *node_begin_with(list_t *head, char c, char *prefix)
 	return (NULL);
 }
 /**
-*_get_node_index - gets the position of a node
+*get_node_at_index - gets the position of a node
 *@head: - first node
 *@node: - the node pointer
 *Return: - returns the position or -1
 */
-ssize_t _get_node_index(list_t *head, list_t *node)
+ssize_t get_node_at_index(list_t *head, list_t *node)
 {
 	ssize_t k = 0;
 
@@ -80,7 +80,7 @@ size_t _list_length(const list_t *head)
 *@head: - first node
 *Return: - returns string
 */
-char **_list2string(list_t *head)
+char **list2string(list_t *head)
 {
 	char **str = malloc((_list_length(head) + 1) * sizeof(char *));
 	int index = 0;
@@ -90,7 +90,7 @@ char **_list2string(list_t *head)
 		return (NULL);
 	if (!str)
 		return (NULL);
-	for (node = head; node; node = node->next, indeex++)
+	for (node = head; node; node = node->next, index++)
 	{
 		str[index] = _strdup(node->str);
 		if (!str[index])

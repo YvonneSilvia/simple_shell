@@ -4,7 +4,7 @@
 *@str: - string param
 *Return: - returns the length
 */
-int _string_len(char *str)
+int _string_len(const char *str)
 {
 	int len = 0;
 
@@ -24,7 +24,7 @@ int _string_len(char *str)
 char *_strcat(char *str1, char *str2)
 {
 	char *s = str1 + _string_len(str1);
-	custom_strncpy(s, str2);
+	_strncpy(s, str2);
 	return (str1);
 }
 /**
@@ -35,7 +35,7 @@ char *_strcat(char *str1, char *str2)
 */
 char *begin_with(const char *str1, const char *str2)
 {
-	for (; *str2; str++, str1++)
+	for (; *str2; str2++, str1++)
 	{
 		if (*str2 != *str1)
 			return (NULL);
@@ -50,7 +50,7 @@ char *begin_with(const char *str1, const char *str2)
 */
 int _strcmp(char *str1, char *str2)
 {
-	while (*str1 && *str2 == *str2)
+	while (*str1 && *str2 == *str1)
 	{
 		str1++;
 		str2++;

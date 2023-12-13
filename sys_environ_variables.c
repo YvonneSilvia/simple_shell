@@ -40,7 +40,7 @@ int _myunsetenv(info_t *info)
 
 	if(info->argc == 1)
 	{
-		_eputs("Too few arguements.\n"):
+		_eputs("Too few arguements.\n");
 		return (1);
 	}
 	for(j = 1; j <= info->argv ; j++)
@@ -77,8 +77,8 @@ int populate_env_list(info_t *info)
 	list_t *node = NULL;
 	size_t j;
 
-	for (j = 0; environ[j]; i++)
-		add_node_at_end(&node, eviron[i], 0);
+	for (j = 0; environ[j]; j++)
+		add_node_at_end(&node, environ[i], 0);
 	info->env = node;
 	return (0);
 }

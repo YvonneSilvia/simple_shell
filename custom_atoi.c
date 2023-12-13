@@ -1,5 +1,4 @@
 #include "shell.h"
-
 /**
  * interactive - returns true if shell is interactive mode
  * @info: stuct address
@@ -14,7 +13,6 @@ int is_interactive(info_t *info)
  * @c: The character to input
  * Return: 1 if c is alphabetic, 0 otherwise
  */
-
 int is_alpha(int c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
@@ -22,7 +20,6 @@ int is_alpha(int c)
 	else
 		return (0);
 }
-
 /**
  * is_delimeter - checks if character is a delimeter
  * @c: the char to check

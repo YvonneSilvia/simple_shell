@@ -131,8 +131,8 @@ char *begin_with(const char *, const char *);
 char *_strcat(char *, char *);
 
 /* toem_string1.c */
-char *custom_strcpy(char *, char *);
-char *_strcpy(char *dest, char *src)
+char *custom_strncpy(char *, char * int);
+char *_strncpy(char *dest, char *src);
 char *_strdup(const char *);
 void _puts(char *);
 int _putchar(char);
@@ -215,7 +215,7 @@ ssize_t get_node_index(list_t *, list_t *);
 /* toem_vars.c */
 int _is_chain(info_t *, char *, size_t *);
 void _check_chain(info_t *, char *, size_t *, size_t, size_t);
-int replace_alias(info_t *);
+int _replace_alias(info_t *);
 int replace_variables(info_t *);
 int replace_string(char **, char *);
 

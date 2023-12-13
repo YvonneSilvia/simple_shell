@@ -37,7 +37,7 @@ char **_strwd1(char * str, char *del)
 				free(s);
 				return (NULL);
 			}
-			custom_strcpy(s[m], str + l, p);
+			custom_strncpy(s[m], str + l, p);
 			s[m][p] = '\0';
 			l += p;
 		}
@@ -80,7 +80,7 @@ char **_strwd2(char *str, char del)
 			free(s);
 			return (NULL);
 		}
-		custom_strcpy(s[n], str + m, o);
+		custom_strncpy(s[n], str + m, o);
 		s[n][o] = '\0';
 		m += o;
 	}

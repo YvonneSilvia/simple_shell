@@ -121,7 +121,7 @@ int _getline(info_t *info, char **ptr, size_t length)
 		if (st)
 			_strncat(new_ptr, buffer + j, k - j);
 		else
-			custom_strcpy(new_ptr, buffer + j, k - j + 1);
+			custom_strncpy(new_ptr, buffer + j, k - j + 1);
 		st += k - j;
 		j = k;
 		p = new_ptr;

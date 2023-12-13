@@ -6,7 +6,7 @@
  * constant function prototype.
  * Return: Always 0
  */
-int mycustom_alias(info_t *info)
+int _myalias(info_t *info)
 {
 	int i = 0;
 	char *p = NULL;
@@ -14,10 +14,10 @@ int mycustom_alias(info_t *info)
 
 	if (info->argc == 1)
 	{
-		node = info->custom_alias;
+		node = info->alias;
 		while (node)
 		{
-			print custom_alias(node);
+			print_alias(node);
 			node = node->next;
 		}
 		return (0);
@@ -26,23 +26,21 @@ int mycustom_alias(info_t *info)
 	{
 		p = _strchr(info->argv[i], '=');
 		if (p)
-			set custom_alias(info, info->argv[i]);
+			set_alias(info, info->argv[i]);
 		else
-			print custom_alias(node_starts_with(info->custom_alias,
+			print_alias(node_begin_with(info->alias,
 		info->argv[i], '='));
 	}
 
 	return (0);
 }
-
 /**
  * set custom_alias - sets alias to sring
  * @info: parameter struct
  * @str: the string alias
- *
  * Return: Always 0 on success, 1 on error
  */
-int set custom_alias(info_t *info, char *str)
+int set_alias(info_t *info, char *str)
 {
 	char *p;
 
@@ -50,12 +48,11 @@ int set custom_alias(info_t *info, char *str)
 	if (!p)
 		return (1);
 	if (!++p)
-		return (unset custom_alias(info, str));
+		return (unset_alias(info, str));
 
-	unset custom_alias(info, str);
-	return (add_node_end(&(info->cutom_alias), str, 0) == NULL);
+	unset_alias(info, str);
+	return (add_node_at_end(&(info->alias), str, 0) == NULL);
 }
-
 /**
  * my custom_history - displays the history list, one command by line, preceded
  * with line numbers, staring at 0.
@@ -63,19 +60,17 @@ int set custom_alias(info_t *info, char *str)
  * constant function prototype.
  * Return: Always 0
  */
-int my custom_history(info_t *info)
+int _myhistory(info_t *info)
 {
-	print_list(info->custom_history);
+	print_list(info->history);
 	return (0);
 }
-
 /**
  * print custom_alias - prints an alias string
  * @node: the alias node
- *
  * Return: Always 0 on success, 1 on error
  */
-int print custom_alias(list_t *node)
+int print_alias(list_t *node)
 {
 	char *p = NULL, *a = NULL;
 
@@ -90,15 +85,14 @@ int print custom_alias(list_t *node)
 			return (0);
 	}
 	return (1);
-
+}
 /**
  * unset custom_alias - sets alias to string
  * @info: parameter struct
  * @str: the string alias
- *
  * Return: Always 0 on success, 1 on error
  */
-int unset custom_alias(info_t *info, char *str)
+int unset_alias(info_t *info, char *str)
 {
 	char *p, c;
 	int ret;
@@ -108,8 +102,8 @@ int unset custom_alias(info_t *info, char *str)
 	return (1);
 	c = *p;
 	*p = 0;
-	ret = delete_node_at_index(&(info->alias),
-	get_node_index(info->alias, node_starts_with
+	ret = delete_node_at_someindex(&(info->alias),
+	get_node_index(info->alias, node_begin_with
 	(info->alias, str, -1)));
 	*p = c;
 	return (ret);

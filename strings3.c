@@ -12,7 +12,7 @@ char *_strdup(const char *str)
 		return (NULL);
 	if (ret == NULL)
 		return (NULL);
-	_custom_strncpy(ret, str);
+	_strncpy(ret, str);
 	return (ret);
 }
 /**
@@ -35,10 +35,10 @@ void _puts(char *str)
 */
 int _putchar(char c)
 {
-	static char buffer[WRITE_BUF_SIZE];
+	static char buffer[BUFFER_SIZE];
 	static int i = 0;
 
-	if (c == BUF_FLUSH || i == WRITE_BUF_SIZE)
+	if (c == BUF_FLUSH || i == BUFFER_SIZE)
 	{
 		write(1, buffer, i);
 		i = 0;
